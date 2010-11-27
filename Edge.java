@@ -20,6 +20,7 @@ class Edge implements Comparable {
   public int getLine() {
     return this.line;
   }
+  
   public int compareTo(Object other) {
     if (other instanceof Edge) {
       Edge o = (Edge) other;
