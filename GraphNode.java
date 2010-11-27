@@ -1,36 +1,36 @@
 /**
- * En nod i en heap.
+ * En nod i en graf.
  */
 
-public class Node {
+public class GraphNode {
   private int key;
   private String value;
   
   /**
-   * @param value Nyttovärdet i noden
-   * @param key Nyckeln som används för att prioritera noden
+   * @param value Nyttovärdet i GraphNoden
+   * @param key Nyckeln som används för att prioritera GraphNoden
    */
-  public Node(String value, int key){
+  public GraphNode(String value, int key){
     this.value = value;
     this.key = key;
   }
   
   /**
-   * @return Nodens nyckel
+   * @return GraphNodens nyckel
    */
   public int getKey(){
     return this.key;
   }
   
   /**
-   * @return Nodens nyttovärde
+   * @return GraphNodens nyttovärde
    */
   public String getValue(){
     return this.value;
   }
   
   /**
-   * Ställer in nodens nyttovärde
+   * Ställer in GraphNodens nyttovärde
    * @param value Det nya värdet
    */
   public void setValue(String value){
@@ -38,7 +38,7 @@ public class Node {
   }
   
   /**
-   * Ställer in nodens nyckel
+   * Ställer in GraphNodens nyckel
    * @param key Den nya nyckeln
    */
   public void setKey(int key){
@@ -46,14 +46,14 @@ public class Node {
   }
   
   /**
-   * @return En strängrepresentation av noden
+   * @return En strängrepresentation av GraphNoden
    */
   public String toString(){
     return "value: " + this.value + ", key: " + Integer.toString(this.key);
   }
   
   /**
-   * Avgör om två noder är lika. Det krävs att både nyckel och värde är lika.
+   * Avgör om två GraphNoder är lika. Det krävs att både nyckel och värde är lika.
    * @return What do you expect?
    */
   public boolean equals(Object other) {
@@ -61,9 +61,9 @@ public class Node {
       return false;
     } else if (this == other) {
       return true;
-    } else if (other instanceof Node) {
-      Node otherNode = (Node) other;
-      return (this.getKey() == otherNode.getKey() && this.getValue().equals(otherNode.getValue()));
+    } else if (other instanceof GraphNode) {
+      GraphNode otherGraphNode = (GraphNode) other;
+      return (this.getKey() == otherGraphNode.getKey() && this.getValue().equals(otherGraphNode.getValue()));
     }
     return false;
   }
