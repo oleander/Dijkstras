@@ -7,15 +7,13 @@ public class Node<T> {
   
   private int key;
   private T value;
-  private int x;
-  private int y;
   
   /* Vår PQ är ju ett bra exempel på en välfungerande sorterad lista */
   private PriorityQueue<Edge> edgeList;
   
   /**
-   * @param value Nyttovärdet i GraphNoden
-   * @param key Nyckeln som används för att prioritera GraphNoden
+   * @param value Nyttovärdet i Noden
+   * @param key Nyckeln som används för att prioritera Noden
    */
   public Node(T value, int key){
     this.value = value;
@@ -24,21 +22,21 @@ public class Node<T> {
   }
   
   /**
-   * @return GraphNodens nyckel
+   * @return Nodens nyckel
    */
   public int getKey(){
     return this.key;
   }
   
   /**
-   * @return GraphNodens nyttovärde
+   * @return Nodens nyttovärde
    */
   public T getValue(){
     return this.value;
   }
   
   /**
-   * Ställer in GraphNodens nyttovärde
+   * Ställer in Nodens nyttovärde
    * @param value Det nya värdet
    */
   public void setValue(T value){
@@ -46,7 +44,7 @@ public class Node<T> {
   }
   
   /**
-   * Ställer in GraphNodens nyckel
+   * Ställer in Nodens nyckel
    * @param key Den nya nyckeln
    */
   public void setKey(int key){
@@ -54,14 +52,14 @@ public class Node<T> {
   }
   
   /**
-   * @return En strängrepresentation av GraphNoden
+   * @return En strängrepresentation av Noden
    */
   public String toString(){
     return "value: " + this.value + ", key: " + Integer.toString(this.key);
   }
   
   /**
-   * Avgör om två GraphNoder är lika. Det krävs att både nyckel och värde är lika.
+   * Avgör om två Noder är lika. Det krävs att både nyckel och värde är lika.
    * @return What do you expect?
    */
   public boolean equals(Object other) {
@@ -70,8 +68,8 @@ public class Node<T> {
     } else if (this == other) {
       return true;
     } else if (other instanceof Node) {
-      Node otherGraphNode = (Node) other;
-      return (this.getKey() == otherGraphNode.getKey() && this.getValue().equals(otherGraphNode.getValue()));
+      Node otherNode = (Node) other;
+      return (this.getKey() == otherNode.getKey() && this.getValue().equals(otherNode.getValue()));
     }
     return false;
   }
