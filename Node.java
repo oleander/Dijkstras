@@ -7,6 +7,8 @@ public class Node<T> {
   
   private int key;
   private T value;
+  private int x;
+  private int y;
   
   /* Vår PQ är ju ett bra exempel på en välfungerande sorterad lista */
   private PriorityQueue<Edge> edgeList;
