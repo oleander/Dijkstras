@@ -1,32 +1,32 @@
-/** En uppdaterarbar heap. Intar som nyckel och strängar som värde, tillsvidare.
+/** En generisk klass för uppdaterbar heap.
  *  @author Jesper Josefsson
  *  @author Linus Oleander
  */
 
 import java.util.*;
 
-public class AHeap {  
+public class GenAHeap<T> {  
   private Comparator comparator;
-  private ArrayList<Node> list;
+  private ArrayList<Node<T>> list;
   private int size;
-  private HashMap<Node,Integer> positionMap;
+  private HashMap<Node<T>,Integer> positionMap;
   
   /**
    * @param comparator komparatorn som bestämmer vilket element är högst prioriterat
    */
-  public AHeap(Comparator comparator){
+  public GenAHeap(Comparator comparator){
     this.comparator = comparator;
     this.size = 0;
-    this.list = new ArrayList<Node>();
-    this.list.add(new Node("My empty node", 0));
-    this.positionMap = new HashMap<Node,Integer>();
+    this.list = new ArrayList<Node<T>>();
+    this.list.add(new Node<T>(null, 0));
+    this.positionMap = new HashMap<Node<T>,Integer>();
   }
   
   /**
    * Gör det möjligt att lägga till noder i heapen
    * @param n Noden som ska läggas till i kön
    */
-  public void add(Node n){
+  public void add(Node<T> n){
     size++;
     if(this.list.size() <= size){
      this.list.add(n);
@@ -59,10 +59,10 @@ public class AHeap {
   * Plockar även bort värdet från heapen
   * @return Första värdet i heapen
   */
-  public Node pull(){
+  public Node<T> pull(){
     if(this.size == 0) return null;
     
-    Node output = get(1);
+    Node<T> output = get(1);
     this.delete(1);
     return output;
   }
@@ -70,10 +70,10 @@ public class AHeap {
   /**
   * Hämtar Noden på plats {index} i heapen
   * Plockar sedan bort värdet från heapen
-  * @param index Anger vilken nod som ska retunerars av heapen där 0 är första noden
-  * @return Noden som finns på plats {index}, finns inte noden så kastas ett fel
+  * @param index Anger vilken nod som ska retunerars av heapen där 0 är första Noden
+  * @return Noden som finns på plats {index}, finns inte Noden så kastas ett fel
   */
-  public Node get(int index){
+  public Node<T> get(int index){
     if (index <= size && index > 0) {
       return this.list.get(index);
     } else {
@@ -85,7 +85,7 @@ public class AHeap {
    * Hämtar, men tar inte bort första värdet från heapen
    * @return Första värdet på heapen
    */
-  public Node peek() {
+  public Node<T> peek() {
     if (this.size == 0) {
       throw new GeneralException("Heap empty");
     }
@@ -98,9 +98,9 @@ public class AHeap {
    * @param key Den nya nyckeln
    */
 
-  public void update(Node old, int key) throws GeneralException {
+  public void update(Node<T> old, int key) throws GeneralException {
     if (positionMap.get(old) == null) {
-      throw new GeneralException("Error in update: Node not found!");
+      throw new GeneralException("Error in update: Node<T> not found!");
     } else {
     int index = positionMap.get(old);
     this.positionMap.remove(old);
@@ -110,18 +110,18 @@ public class AHeap {
     }
   }
   
-  /* Plockar bort noden på plats {index}
+  /* Plockar bort Noden på plats {index}
   */
   private void delete(int index){
-    /* Kopierar den sista noden till det givna indexet */
-    Node lastNode = list.get(size);
+    /* Kopierar den sista Noden till det givna indexet */
+    Node<T> lastNode = list.get(size);
     list.set(index, lastNode);
     
-    /* Sparar undan den flyttade nodens index i positionsmappen */
+    /* Sparar undan den flyttade Nodens index i positionsmappen */
     positionMap.put(lastNode,index);
     size--;
     
-    /* Ser till att den flyttade noden ligger på rätt ställe */
+    /* Ser till att den flyttade Noden ligger på rätt ställe */
     bubbleDown(lastNode);
     bubbleUp(lastNode);
   }
@@ -133,13 +133,13 @@ public class AHeap {
     this.delete(1);
   }
   
-  /* Byter plats på två noder */
-  private void swap(Node a, Node b){
+  /* Byter plats på två Node<T>r */
+  private void swap(Node<T> a, Node<T> b){
     /* Tar fram index för vardera nod */
     int indexA = positionMap.get(a);
     int indexB = positionMap.get(b);
     
-    /* sparar ner noderna på sina nya positioner */
+    /* sparar ner Node<T>rna på sina nya positioner */
     list.set(indexB, a);
     list.set(indexA, b);
     
@@ -148,19 +148,19 @@ public class AHeap {
     positionMap.put(b,indexA);
   }
   
-  private Node getParent(Node n) {
+  private Node<T> getParent(Node<T> n) {
     int index = positionMap.get(n);
     return list.get(index/2);
   }
   
   /* Utför både nedåt- och uppåtbubbling */
-  private void bubble(Node n) {
+  private void bubble(Node<T> n) {
     this.bubbleUp(n);
     this.bubbleDown(n);
   }
   
   /* Flyttar en nod uppåt i heapen till rätt position */
-  private void bubbleUp(Node n) {
+  private void bubbleUp(Node<T> n) {
     /* Om n är root avbryter vi */
     if (list.get(1).equals(n)) {
       return;
@@ -168,7 +168,7 @@ public class AHeap {
     
     /* Annars tar vi fram n:s förälder och kollar heapvillkor
      * Om villkoret ej uppfylls swappar vi och kör bubbleUp en gång till */
-    Node parent = this.getParent(n);
+    Node<T> parent = this.getParent(n);
     if (compareNodes(parent,n) > 0) {
       swap(parent,n);
       bubbleUp(n);
@@ -176,7 +176,7 @@ public class AHeap {
   }
   
   /* Ser till att en nod är på rätt ställe i trädet genom att flytta den nedåt i trädet */
-  private void bubbleDown(Node n) {
+  private void bubbleDown(Node<T> n) {
     if (!hasChildren(n)) return;
     
     int thisKey = n.getKey();
@@ -196,7 +196,7 @@ public class AHeap {
       int rightChildKey = rightChild(n).getKey();
       /* Om något av barnen har lägre nyckel än n ska vi swappa */
       if ((comparator.compare(leftChildKey, thisKey) < 0) || (comparator.compare(rightChildKey, thisKey) < 0)){
-        Node swapNode = comparator.compare(leftChildKey,rightChildKey) < 0 ? leftChild(n) : rightChild(n);
+        Node<T> swapNode = comparator.compare(leftChildKey,rightChildKey) < 0 ? leftChild(n) : rightChild(n);
         swap(n,swapNode);
         bubbleDown(n);
       } else {
@@ -205,26 +205,26 @@ public class AHeap {
     }
   }
   
-  private boolean hasChildren(Node n) {
+  private boolean hasChildren(Node<T> n) {
     return positionMap.get(n)*2 <= size;
   }
   
-  private boolean hasRightChild(Node n) {
+  private boolean hasRightChild(Node<T> n) {
     return positionMap.get(n)*2 + 1 <= size;
   }
   
-  private Node leftChild(Node n) {
+  private Node<T> leftChild(Node<T> n) {
     int index = positionMap.get(n);
     return list.get(index*2);
   }
   
-  private Node rightChild(Node n) {
+  private Node<T> rightChild(Node<T> n) {
     int index = positionMap.get(n);
     return list.get(index*2 + 1);
   }
   
-  /* Jämför nycklarna på två noder */
-  private int compareNodes(Node a, Node b) {
+  /* Jämför nycklarna på två Noder */
+  private int compareNodes(Node<T> a, Node<T> b) {
     return this.comparator.compare(a.getKey(),b.getKey());
   }
   

@@ -1,24 +1,24 @@
 /**
  * En nod i en graf.
+ * Sparar ett nyttovärde och en nyckel samt lista på bågar som utgår från noden
  */
 
-public class GraphNode {
+public class Node<T> {
   
-  /* Value bör kanske vara en BStop? */
   private int key;
-  private String value;
+  private T value;
   
   /* Vår PQ är ju ett bra exempel på en välfungerande sorterad lista */
-  private PriorityQueue edgeList;
+  private PriorityQueue<Edge> edgeList;
   
   /**
    * @param value Nyttovärdet i GraphNoden
    * @param key Nyckeln som används för att prioritera GraphNoden
    */
-  public GraphNode(String value, int key){
+  public Node(T value, int key){
     this.value = value;
     this.key = key;
-    this.edgeList = new PriorityQueue();
+    this.edgeList = new PriorityQueue<Edge>(PriorityQueue.ASC);
   }
   
   /**
@@ -31,7 +31,7 @@ public class GraphNode {
   /**
    * @return GraphNodens nyttovärde
    */
-  public String getValue(){
+  public T getValue(){
     return this.value;
   }
   
@@ -39,7 +39,7 @@ public class GraphNode {
    * Ställer in GraphNodens nyttovärde
    * @param value Det nya värdet
    */
-  public void setValue(String value){
+  public void setValue(T value){
     this.value = value;
   }
   
@@ -67,8 +67,8 @@ public class GraphNode {
       return false;
     } else if (this == other) {
       return true;
-    } else if (other instanceof GraphNode) {
-      GraphNode otherGraphNode = (GraphNode) other;
+    } else if (other instanceof Node) {
+      Node otherGraphNode = (Node) other;
       return (this.getKey() == otherGraphNode.getKey() && this.getValue().equals(otherGraphNode.getValue()));
     }
     return false;

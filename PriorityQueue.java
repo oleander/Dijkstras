@@ -1,16 +1,16 @@
 import java.util.*;
 
-public class PriorityQueue {
+public class PriorityQueue<T> {
   public static final boolean DESC = false;
   public static final boolean ASC = true;
   
-  private AHeap heap;
+  private GenAHeap<T> heap;
   
   /**
   * @param desc Anger hurvida PriorityQueue ska vara fallande eller stigande
   */
   public PriorityQueue(boolean desc){
-    this.heap = new AHeap(new HeapComparator(desc));
+    this.heap = new GenAHeap<T>(new HeapComparator(desc));
   }
   
   /**
@@ -18,7 +18,7 @@ public class PriorityQueue {
   * Värdet plockas sedan bort
   * @return en Node som ligger första på heapen
   */
-  public Node pull(){
+  public Node<T> pull(){
     return this.heap.pull();
   }
   
@@ -34,8 +34,8 @@ public class PriorityQueue {
   * @param name Namnet, i vårt fall, på personen som ska placeras i kön
   * @param key Värdet på personen, i vårt fall värdet på aktien som personen har köpt eller sålt
   */
-  public void add(String name, int key){
-    this.heap.add(new Node(name,key));
+  public void add(T value, int key){
+    this.heap.add(new Node<T>(value,key));
   }
   
   /**
@@ -44,8 +44,8 @@ public class PriorityQueue {
   * @param oldKey Föregående nyckel, alltså samma nyckel som angavs i {add()}
   * @param newKey Användarens nya nyckel
   */
-  public void update(String name, int oldKey, int newKey){
-    this.heap.update(new Node(name,oldKey), newKey);
+  public void update(T value, int oldKey, int newKey){
+    this.heap.update(new Node<T>(value, oldKey), newKey);
   }
   
   /**
@@ -67,7 +67,7 @@ public class PriorityQueue {
    * Hämtar, men tar inte bort första värdet från kön
    * @return Första värdet på heapen
    */
-  public Node peek() {
+  public Node<T> peek() {
     return this.heap.peek();
   }
   
