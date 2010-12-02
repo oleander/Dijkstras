@@ -1,5 +1,5 @@
 /**
- * En nod i en graf.
+ * En generisk nod i en graf.
  * Sparar ett nyttovärde och en nyckel samt lista på bågar som utgår från noden
  */
 

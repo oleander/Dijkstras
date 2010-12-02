@@ -1,4 +1,4 @@
-class Edge implements Comparable {
+public class Edge implements Comparable {
   private Node destination;
   private int weight;
   private int line;
@@ -21,6 +21,7 @@ class Edge implements Comparable {
     return this.line;
   }
   
+  /* Compares two edges with respect to their weights */
   public int compareTo(Object other) {
     if (other instanceof Edge) {
       Edge o = (Edge) other;

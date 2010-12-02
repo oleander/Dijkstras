@@ -1,14 +1,14 @@
+import java.util.HashSet;
 /* A graph */
 
 class Graph {
-  /* Vår prioritetskö är ju en bra lösning för en sorterad lista... */
-  private PriorityQueue nodeList;
-  private int size;
+  private HashSet<Node> nodeSet;
   
   public Graph(){
-    nodeList = new PriorityQueue(PriorityQueue.ASC);
-    size = 0;
+    nodeList = new HashSet<Node>();
   }
   
-  public void addNode(GraphNode n);
+  public void addNode(Node n) {
+    this.nodeSet.add(n);
+  }
 }

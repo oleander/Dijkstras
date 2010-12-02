@@ -1,0 +1,5 @@
+1.  Vi behöver ha koll på vilka noder som är besökta. Antingen med en "visited"-parameter i noderna eller t.ex. med en HashSet.
+    Jag tycker att det är cleanare att implementera det med lista i DijkPath-klassen.
+2.  Vi behöver kunna iterera över alla grannar till en nod. Som jag förstår behöver vi inte kunna ta fram den kortaste snabbt.
+    Alltså kan det vara skäl att använda en enkel ArrayList för edgeList i Node.
+3.  
