@@ -18,6 +18,14 @@ public class DijkPath implements Path {
   /* A dummy list for debugging */
   private ArrayList<String> dummyList = new ArrayList<String>();
   
+  public Path(String stopsFileName, String linesFileName) {
+    
+  }
+  
+  public Path(List<BStop> stops, List<BLineTable> lines) {
+    
+  }
+  
   public void computePath(String from, String to) {
     
   }

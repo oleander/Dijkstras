@@ -3,3 +3,12 @@
 2.  Vi behöver kunna iterera över alla grannar till en nod. Som jag förstår behöver vi inte kunna ta fram den kortaste snabbt.
     Alltså kan det vara skäl att använda en enkel ArrayList för edgeList i Node.
 3.  
+    Min bild av programflödet hittills:
+    
+    Man skapar ett Dijkpath-object.
+    Dijkpath skapar grafen.
+    För att göra detta finns två konstruktorer i Dijkpath:
+      1. Två filnamn: stops och lines, innehåller filer med listor med hållplatser och linjetabeller
+      2. Två listor: stops och lines, se ovan
+    Med denna input skapar Dijkpath en graf.
+    Därefter kör man computePath
