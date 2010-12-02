@@ -12,3 +12,5 @@
       2. Två listor: stops och lines, se ovan
     Med denna input skapar Dijkpath en graf.
     Därefter kör man computePath
+    
+4. Vi behöver hitta noder snabbt i grafen, alltså bör vi ha en HashMap: String -> Node i grafen
