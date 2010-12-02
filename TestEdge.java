@@ -5,7 +5,7 @@ public class TestEdge extends TestCase {
   
   public void testConstructor() {
     String name = "Testnode";
-    Node destination = new Node(name,1);
+    Node<String> destination = new Node<String>(name,1);
     Edge e = new Edge(destination,2,3);
     assertEquals(name, e.getDestination().getValue());
     assertEquals(2,e.getWeight());

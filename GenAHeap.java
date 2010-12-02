@@ -18,7 +18,7 @@ public class GenAHeap<T> {
     this.comparator = comparator;
     this.size = 0;
     this.list = new ArrayList<Node<T>>();
-    this.list.add(new Node<T>(null, 0));
+    this.list.add(new Node<T>(null,0));
     this.positionMap = new HashMap<Node<T>,Integer>();
   }
   
