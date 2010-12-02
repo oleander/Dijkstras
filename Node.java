@@ -8,10 +8,8 @@ public class Node<T> {
   
   private int key;
   private T value;
-  
-  /* Vår PQ är ju ett bra exempel på en välfungerande sorterad lista */
-  // private PriorityQueue<Edge> edgeList;
   private ArrayList<Edge> edgeList;
+  
   /**
    * @param value Nyttovärdet i Noden
    * @param key Nyckeln som används för att prioritera Noden
@@ -20,7 +18,6 @@ public class Node<T> {
     this.value = value;
     this.key = key;
     this.edgeList = new ArrayList<Edge>();
-    // this.edgeList = new PriorityQueue<Edge>(PriorityQueue.ASC);
   }
   
   /**
