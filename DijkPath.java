@@ -86,13 +86,14 @@ public class DijkPath implements Path {
     
     /* Dijstras algoritm. */
     while(!pq.isEmpty()){
+      //System.out.println("=====================\nBörjan på while-loopen: \n" + pq);
       current = pq.pull();
+      System.out.println("=====================\nCurrent är: \n" + current);
       
       // Har vi hittat vår slut-nod ?
       if(current.equals(end)){ 
         break; 
       }
-      System.out.println(current.getValue().getEdges());
       
       for(Edge e : current.getValue().getEdges()){
         /* Hämtar den Nod som inkapslar bågens destinationsgrafnod. */
@@ -117,7 +118,7 @@ public class DijkPath implements Path {
         
         /* Nu är vi klara med noden Current - den läggs till i visitedlistan */
         visited.add(current);
-        System.out.println(current.getValue().getStop().getName());
+        System.out.println("Nu lägger vill till denna i stacken: " + current);
       }
       
       /* Går igenom kedjan av noder från destinationsnoden och bakåt för att bygga upp kortaste vägen till destinationen. */
@@ -125,10 +126,6 @@ public class DijkPath implements Path {
         path.push(new PathNode(current.getValue().getStop(), current.getLine()));
         current = current.getPrevious();
       } while (current != null);
-      
-      for(PathNode bb : this.path){
-        System.out.println(bb);
-      }
     }
   }
   

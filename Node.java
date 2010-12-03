@@ -76,7 +76,7 @@ public class Node<T> {
    * @return En strängrepresentation av Noden
    */
   public String toString(){
-    return "value: " + this.value + ", key: " + Integer.toString(this.key);
+    return "BEGIN NODE =======>\nvalue: \n" + this.value + "\nkey: " + Integer.toString(this.key) + "\n<===== END NODE";
   }
   
   /**

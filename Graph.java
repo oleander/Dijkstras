@@ -1,7 +1,7 @@
 import java.util.*;
 /* A graph */
 
-class Graph {
+public class Graph {
   private HashMap<String,GraphNode> posList;
   private ArrayList<GraphNode> nodeList;
   
@@ -25,5 +25,13 @@ class Graph {
   
   public GraphNode getNode(String name) {
     return this.posList.get(name);
+  }
+  
+  public String toString(){
+    String output = "";
+    for (GraphNode g : nodeList) {
+      output += g + "\n";
+    }
+    return output;
   }
 }

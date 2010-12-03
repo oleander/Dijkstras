@@ -5,6 +5,7 @@ import Lab3Help.BStop;
 class GraphNode {
   private ArrayList<Edge> edgeList;
   private BStop stop;
+  
   public GraphNode(BStop stop){
     this.edgeList = new ArrayList<Edge>();
     this.stop = stop;
@@ -41,4 +42,13 @@ class GraphNode {
   public int hashCode() {
     return this.stop.getName().hashCode();
   }
+  
+  public String toString() {
+    String output = stop.getName() + " - Outgoing edges:\n";
+    for (Edge e : edgeList) {
+      output += e + "\n";
+    }
+    return output;
+  }
+  
 }

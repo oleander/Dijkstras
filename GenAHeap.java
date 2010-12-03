@@ -46,7 +46,7 @@ public class GenAHeap<T> {
   }
   
   /**
-  * Kontrollerar hurvida heapen är tom eller ej
+  * Kontrollerar huruvida heapen är tom eller ej
   * @return True om heapen är tom
   */
   public boolean isEmpty() {
@@ -55,7 +55,7 @@ public class GenAHeap<T> {
   
   /**
   * Hämtar första värden i heapen
-  * Är heapen tom så retunerar {null}
+  * Är heapen tom så returneras {null}
   * Plockar även bort värdet från heapen
   * @return Första värdet i heapen
   */
@@ -232,6 +232,11 @@ public class GenAHeap<T> {
    * @return String en strängrepresentation av heapen
    */
   public String toString() {
-    return this.list.toString();
+    String output = "BEGIN HEAP CONTENT =========> \n";
+    for (Node<T> n : list) {
+      output += n + "\n";
+    }
+    output += "\n <======= END HEAP CONTENT";
+    return output;
   }
 }
