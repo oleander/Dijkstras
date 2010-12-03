@@ -1,15 +1,19 @@
 public class Edge implements Comparable {
-  private Node destination;
+  private GraphNode destination;
   private int weight;
   private int line;
   
-  public Edge(Node dest, int weight, int line) {
+  public Edge(GraphNode dest, int line) {
+    this(dest,Integer.MAX_VALUE, line);
+  }
+  
+  public Edge(GraphNode dest, int weight, int line) {
     this.destination  = dest;
     this.weight       = weight;
     this.line         = line;
   }
   
-  public Node getDestination() {
+  public GraphNode getDestination() {
     return this.destination;
   }
   

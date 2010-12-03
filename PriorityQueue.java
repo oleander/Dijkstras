@@ -38,6 +38,10 @@ public class PriorityQueue<T> {
     this.heap.add(new Node<T>(value,key));
   }
   
+  public void add(Node<T> n) {
+    this.heap.add(n);
+  }
+  
   /**
   * Uppdaterar ett befintligt värde i kön
   * @param name Namnet på personen som ska ändras
@@ -46,6 +50,10 @@ public class PriorityQueue<T> {
   */
   public void update(T value, int oldKey, int newKey){
     this.heap.update(new Node<T>(value, oldKey), newKey);
+  }
+  
+  public void update(Node<T> node, int newKey) {
+    this.heap.update(node,newKey);
   }
   
   /**

@@ -8,16 +8,27 @@ public class Node<T> {
   
   private int key;
   private T value;
-  private ArrayList<Edge> edgeList;
+  private Node previous;
   
   /**
    * @param value Nyttovärdet i Noden
    * @param key Nyckeln som används för att prioritera Noden
    */
+  public Node(T value){
+    this(value, Integer.MAX_VALUE);
+  }
+  
   public Node(T value, int key){
     this.value = value;
     this.key = key;
-    this.edgeList = new ArrayList<Edge>();
+  }
+  
+  public Node getPrevious(){
+    return this.previous;
+  }
+  
+  public void setPrevious(Node n){
+    this.previous = n;
   }
   
   /**
