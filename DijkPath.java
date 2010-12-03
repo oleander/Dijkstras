@@ -71,7 +71,7 @@ public class DijkPath implements Path {
     Node<GraphNode> end         = new Node<GraphNode>(this.graph.getNode(to));
     PriorityQueue<GraphNode> pq = new PriorityQueue<GraphNode>(PriorityQueue.ASC);
     HashMap<GraphNode,Node<GraphNode>> nodeMap = new HashMap<GraphNode,Node<GraphNode>>();
-    Node<GraphNode> current;
+    Node<GraphNode> current = null;
     Node<GraphNode> tempDest;
     int newDist;
     
@@ -86,12 +86,11 @@ public class DijkPath implements Path {
     
     /* Dijstras algoritm. */
     while(!pq.isEmpty()){
-      //System.out.println("=====================\nBörjan på while-loopen: \n" + pq);
       current = pq.pull();
       System.out.println("=====================\nCurrent är: \n" + current);
       
       // Har vi hittat vår slut-nod ?
-      if(current.equals(end)){ 
+      if(current.equals(end)){
         break; 
       }
       
@@ -118,15 +117,14 @@ public class DijkPath implements Path {
         
         /* Nu är vi klara med noden Current - den läggs till i visitedlistan */
         visited.add(current);
-        System.out.println("Nu lägger vill till denna i stacken: " + current);
+        System.out.println("Nu lägger vill till denna i visited: " + current);
       }
-      
-      /* Går igenom kedjan av noder från destinationsnoden och bakåt för att bygga upp kortaste vägen till destinationen. */
-      do {
-        path.push(new PathNode(current.getValue().getStop(), current.getLine()));
-        current = current.getPrevious();
-      } while (current != null);
     }
+    /* Går igenom kedjan av noder från destinationsnoden och bakåt för att bygga upp kortaste vägen till destinationen. */
+    do {
+      path.push(new PathNode(current.getValue().getStop(), current.getLine()));
+      current = current.getPrevious();
+    } while (current != null);
   }
   
   public Iterator getPath() {
