@@ -10,6 +10,9 @@ public class Node<T> {
   private T value;
   private Node previous;
   
+  /* Linjen man använder för att komma från förra noden */
+  private int lineToPrevious;
+  
   /**
    * @param value Nyttovärdet i Noden
    * @param key Nyckeln som används för att prioritera Noden
@@ -29,6 +32,14 @@ public class Node<T> {
   
   public void setPrevious(Node n){
     this.previous = n;
+  }
+  
+  public void setLine(int line) {
+    this.lineToPrevious = line;
+  }
+  
+  public int getLine() {
+    return this.lineToPrevious;
   }
   
   /**
