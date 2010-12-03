@@ -80,7 +80,7 @@ public class PriorityQueue<T> {
   }
   
   /**
-  * Kontrollerar hurvida kön är tom eller ej
+  * Kontrollerar huruvida kön är tom eller ej
   * @return Sant om kön är tom
   */
   public boolean isEmpty() {

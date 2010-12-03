@@ -34,4 +34,8 @@ public class Edge implements Comparable {
       throw new IllegalArgumentException();
     }
   }
+  
+  public String toString() {
+    return "Destination: " + destination.getName() + ", time: " + this.weight +", line: " + this.line;
+  }
 }
