@@ -7,7 +7,7 @@ public class PriorityQueue<T> {
   private GenAHeap<T> heap;
   
   /**
-  * @param desc Anger hurvida PriorityQueue ska vara fallande eller stigande
+  * @param desc Anger huruvida PriorityQueue ska vara fallande eller stigande
   */
   public PriorityQueue(boolean desc){
     this.heap = new GenAHeap<T>(new HeapComparator(desc));
