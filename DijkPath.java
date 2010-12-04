@@ -158,6 +158,10 @@ public class DijkPath implements Path {
     return path.iterator();
   }
   
+  public Iterator<BStop> getAllStops(){
+    return graph.getStops().iterator();
+  }
+  
   public int getPathLength() {
     return this.length;
   }

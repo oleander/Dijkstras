@@ -1,4 +1,7 @@
-import java.util.*;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
+import Lab3Help.BStop;
 /* A graph */
 
 public class Graph {
@@ -25,6 +28,14 @@ public class Graph {
   
   public GraphNode getNode(String name) {
     return this.posList.get(name);
+  }
+  
+  public List<BStop> getStops() {
+    ArrayList<BStop> stops = new ArrayList<BStop>();
+    for (GraphNode g : nodeList) {
+      stops.add(g.getStop());
+    }
+    return stops;
   }
   
   public String toString(){

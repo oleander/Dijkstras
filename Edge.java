@@ -1,3 +1,9 @@
+
+/**
+ * En båge som mellan två grafnoder
+ * Håller reda på längd, destination och vilken linje som bågen representerar.
+ */
+
 public class Edge implements Comparable {
   private GraphNode destination;
   private int weight;
@@ -13,19 +19,30 @@ public class Edge implements Comparable {
     this.line         = line;
   }
   
+  /**
+   * @return Bågens destinationsnod.
+   */
   public GraphNode getDestination() {
     return this.destination;
   }
   
+  /**
+   * @return Bågens vikt, det vill säga tiden det tar att färdas längs bågen.
+   */
   public int getWeight() {
     return this.weight;
   }
   
+  /**
+   * @return Linjen som bågen representerar.
+   */
   public int getLine() {
     return this.line;
   }
   
-  /* Compares two edges with respect to their weights */
+  /**
+   * När man jämför två bågar jämförs deras längder.
+   */
   public int compareTo(Object other) {
     if (other instanceof Edge) {
       Edge o = (Edge) other;
