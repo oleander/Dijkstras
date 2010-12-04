@@ -18,7 +18,7 @@ public class DijkPath implements Path {
   
   private HashSet<Node<GraphNode>> visited = new HashSet<Node<GraphNode>>();
   
-  Stack<PathNode> path = new Stack<PathNode>();
+  Deque<PathNode> path = new ArrayDeque<PathNode>();
   
   
   /* Both constructors build a graph based on the input */
@@ -37,6 +37,7 @@ public class DijkPath implements Path {
   private void buildGraph(List<BStop> stops, List<BLineTable> lines){
     this.graph = new Graph();
     
+    /* Skapar noder av alla hållplatser */
     for(BStop bs : stops){
       this.graph.addNode(new GraphNode(bs));
     }
@@ -48,6 +49,9 @@ public class DijkPath implements Path {
       BLineStop next;
       Edge edge;
       
+      /* Går igenom linjehållplatserna parvis. Den första hållplatsen i paret är ursprungsnoden, och den andra  
+       * blir destinationsnoden för den nya bågen.
+       */
       for (int n = 1; n < i.length; n++) {
         next = i[n];
         edge = new Edge(this.graph.getNode(next.getName()), next.getTime(), blt.getLineNo());
@@ -68,8 +72,6 @@ public class DijkPath implements Path {
   public void computePath(String from, String to) {
     
     /* Start- och målnoder */
-    // Node<GraphNode> start       = new Node<GraphNode>(this.graph.getNode(from));
-    // Node<GraphNode> end         = new Node<GraphNode>(this.graph.getNode(to));
     GraphNode start = this.graph.getNode(from);
     GraphNode end   = this.graph.getNode(to);
     
@@ -85,7 +87,7 @@ public class DijkPath implements Path {
     int newDist;
     
     /* Tömmer path så att vi kan returnera en tom iterator om en väg till målet inte hittas. */
-    
+    path.clear();
     
     /* Inkapsla alla grafnoder i grafen i noder och lägg dem i en PQ. */
     for(GraphNode gn : this.graph.getNodes()){
@@ -133,11 +135,10 @@ public class DijkPath implements Path {
           tempDest.setLine(e.getLine());
           pq.update(tempDest, newDist);
         }
-        
-        /* Nu är vi klara med noden Current - den läggs till i visitedlistan */
-        visited.add(current);
-        System.out.println("Nu lägger vill till denna i visited: " + current);
       }
+      /* Nu är vi klara med noden Current - den läggs till i visitedlistan */
+      visited.add(current);
+      System.out.println("Nu lägger vill till denna i visited: " + current);
     }
     
     /* Hämtar destinationsnoden från nodeMap och lägger den i current */
@@ -146,9 +147,7 @@ public class DijkPath implements Path {
     /* Currents nyckel är det kortaste avståndet till destinationen. Sparar det i length. */
     this.length = current.getKey();
     
-    /* Går igenom kedjan av noder från destinationsnoden och bakåt för att bygga upp kortaste vägen till destinationen. 
-     * Destinationsnoden bör ligga kvar i current.
-     */
+    /* Går igenom kedjan av noder från destinationsnoden och bakåt för att bygga upp kortaste vägen till destinationen. */
     do {
       path.push(new PathNode(current.getValue().getStop(), current.getLine()));
       current = current.getPrevious();

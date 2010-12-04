@@ -7,11 +7,12 @@ class TestDijkPath extends TestCase {
     try {
       
       DijkPath dj = new DijkPath("stops", "lines");
-      dj.computePath("MIA", "JFK");
+      dj.computePath("ORD", "LAX");
       Iterator i = dj.getPath();
       while (i.hasNext()) {
         System.out.println(i.next());
       }
+      System.out.println(dj.getPathLength());
       
     } catch(Exception e){
       e.printStackTrace();
