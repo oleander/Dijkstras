@@ -27,6 +27,7 @@ class GraphNode {
     return this.stop;
   }
   
+  /* Likhet råder om hållplatserna har samma namn. */
   public boolean equals(Object other) {
     if (other == null) {
       return false;
