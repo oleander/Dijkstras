@@ -10,10 +10,21 @@ public class Edge implements Comparable {
   private int weight;
   private int line;
   
+  /**
+   * Bygger en båge med maximal möjlig tyngd.
+   * @param dest Bågens destinationsnod
+   * @param line Bågens linje
+   */
   public Edge(GraphNode dest, int line) {
     this(dest,Integer.MAX_VALUE, line);
   }
   
+  /**
+   * Bygger en båge.
+   * @param dest Bågens destinationsnod
+   * @param line Bågens linje
+   * @param weight Bågens tyngd
+   */
   public Edge(GraphNode dest, int weight, int line) {
     this.destination  = dest;
     this.weight       = weight;
@@ -21,11 +32,22 @@ public class Edge implements Comparable {
     this.origin       = null;
   }
   
+  /**
+   * Bygger en båge med en ursprungsnod.
+   * @param origin Bågens ursprungsnod
+   * @param dest Bågens destinationsnod
+   * @param line Bågens linje
+   * @param weight Bågens tyngd
+   */
   public Edge(GraphNode origin, GraphNode dest, int weight, int line) {
     this(dest, weight, line);
     this.origin = origin;
   }
   
+  /**
+   * Ställer in bågens ursprungsnod
+   * @param n Bågens ursprungsnod
+   */
   public void setOrigin(GraphNode n) {
     this.origin = n;
   }

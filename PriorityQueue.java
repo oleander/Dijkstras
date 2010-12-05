@@ -1,22 +1,29 @@
 import java.util.*;
 
+/**
+ * En generisk uppdaterbar prioritetskö.
+ */
+
 public class PriorityQueue<T> {
+  
+  /** Anges för att få fallande köordning (största elementet har högst prioritet). */
   public static final boolean DESC = false;
+  /** Anges för att få stigande prioritet (elementet med lägst värde på nyckeln har högst prioritet). */
   public static final boolean ASC = true;
   
   private GenAHeap<T> heap;
   
   /**
-  * @param desc Anger huruvida PriorityQueue ska vara fallande eller stigande
+  * @param desc Anger huruvida PriorityQueue ska vara fallande eller stigande.
   */
   public PriorityQueue(boolean desc){
     this.heap = new GenAHeap<T>(new HeapComparator(desc));
   }
   
   /**
-  * Hämtar första värdet i kön
-  * Värdet plockas sedan bort
-  * @return en Node som ligger första på heapen
+  * Hämtar första värdet i kön.
+  * Värdet plockas sedan bort.
+  * @return den nod som ligger först på heapen
   */
   public Node<T> pull(){
     return this.heap.pull();
@@ -30,9 +37,9 @@ public class PriorityQueue<T> {
   }
   
   /**
-  * Lägger till ett värde med angiven nyckel i kön
-  * @param name Namnet, i vårt fall, på personen som ska placeras i kön
-  * @param key Värdet på personen, i vårt fall värdet på aktien som personen har köpt eller sålt
+  * Lägger till ett värde med angiven nyckel i kön.
+  * @param value Nyttovärdet som ska placeras i kön
+  * @param key Nyckelvärdet
   */
   public void add(T value, int key){
     this.heap.add(new Node<T>(value,key));
@@ -43,36 +50,41 @@ public class PriorityQueue<T> {
   }
   
   /**
-  * Uppdaterar ett befintligt värde i kön
-  * @param name Namnet på personen som ska ändras
-  * @param oldKey Föregående nyckel, alltså samma nyckel som angavs i {add()}
-  * @param newKey Användarens nya nyckel
+  * Uppdaterar ett befintligt värde i kön.
+  * @param value Nyttovärdet som ska uppdateras
+  * @param oldKey Föregående nyckel
+  * @param newKey Nyttovärdets nya nyckel
   */
   public void update(T value, int oldKey, int newKey){
     this.heap.update(new Node<T>(value, oldKey), newKey);
   }
   
+  /**
+   * Uppdaterar en befintlig nod i kön.
+   * @param node Noden som ska uppdateras.
+   * @param newKey Den nya nyckeln.
+   */
   public void update(Node<T> node, int newKey) {
     this.heap.update(node,newKey);
   }
   
   /**
-  * Räknar ut antalet personer i kön
-  * @return Antalet personer i kön
+  * Returnerar antalet noder i kön.
+  * @return Antalet noder i kön
   */
   public int getSize(){
     return this.heap.getSize();
   }
   
   /** 
-   * @return Sträng-värdet av kön
+   * @return Strängrepresentation av kön
    */
   public String toString() {
     return this.heap.toString();
   }
   
   /**
-   * Hämtar, men tar inte bort första värdet från kön
+   * Hämtar, men tar inte bort första noden från kön
    * @return Första värdet på heapen
    */
   public Node<T> peek() {

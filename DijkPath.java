@@ -2,35 +2,52 @@ import java.util.*;
 import Lab3Help.*;
 
 /**
-* Calculates the shortest paths between nodes in a graph.
+* Beräknar den kortaste sträckan mellan två noder i en graf.
+* Konstruktorerna tar argument med vilka klassen skapar en graf.s
 */
 
 public class DijkPath implements Path {
   
-  /* The graph from which the paths are calculated */
   private Graph graph;
+  private List<BStop> stops;
+  private List<BLineTable> lines;
+  private long executionTime;
   
-  /* The length of the current path */
+  /* Längden på den senast uträknade sträckan */
   private int length;
   
+  /* En förteckning på besökta noder. */
   private HashSet<Node<GraphNode>> visited = new HashSet<Node<GraphNode>>();
   
+  /* En kö som innehåller den kortaste sträckan. */
   Deque<Node<GraphNode>> path = new ArrayDeque<Node<GraphNode>>();
   
-  
-  /* Both constructors build a graph based on the input */
+  /**
+   * Bygger en graf på basis av filnamnen {stopsFileName} och {lineFileName}
+   * @param stopsFileName Filnamnet på hållplatslistan
+   * @param linesFileName Filnamnet på linjetabellslistan
+   */
   public DijkPath(String stopsFileName, String linesFileName) {
-    Lab3File l             = new Lab3File();
-    List<BLineTable> lines = l.readLines(linesFileName);
-    List<BStop> stops      = l.readStops(stopsFileName);
-    
+    Lab3File l = new Lab3File();
+    try {
+      lines = l.readLines(linesFileName);
+      stops = l.readStops(stopsFileName);
+    } catch (RuntimeException e) {
+      throw new GeneralException("Error while reading files.");
+    }
     this.buildGraph(stops,lines);  
   }
   
+  /**
+   * Bygger en graf på basis av de färdiga listorna {stops} och {lines}
+   * @param stops Lista med hållplatser
+   * @param lines Lista med linjetabeller
+   */
   public DijkPath(List<BStop> stops, List<BLineTable> lines) {
     this.buildGraph(stops,lines);
   }
   
+  /* Bygger en graf av en hållplatslista och en linjetabellslista. */
   private void buildGraph(List<BStop> stops, List<BLineTable> lines){
     this.graph = new Graph();
     
@@ -39,6 +56,7 @@ public class DijkPath implements Path {
       this.graph.addNode(new GraphNode(bs));
     }
     
+    /* Går igenom alla linjetabeller och skapar bågar av linjerna. */
     for(BLineTable blt : lines){
       
       BLineStop[] i = blt.getStops();
@@ -55,8 +73,7 @@ public class DijkPath implements Path {
         GraphNode graphNode = this.graph.getNode(current.getName());
         
         if(graphNode == null){
-          System.err.println("Det finns hållplatser som ej har linjer");
-          System.exit(1);
+          throw new GeneralException("Error: Lines refer to non-existing stops.");
         } else {
           graphNode.addEdge(edge);
         }
@@ -66,7 +83,13 @@ public class DijkPath implements Path {
     }
   }
   
+  /**
+   * Räknar ut den kortaste sträckan mellan {from} och {to}
+   * @param from Starthållplats
+   * @param to Målhållplats
+   */
   public void computePath(String from, String to) {
+    long begin = System.currentTimeMillis();
     
     /* Start- och målnoder */
     GraphNode start = this.graph.getNode(from);
@@ -148,20 +171,42 @@ public class DijkPath implements Path {
       path.push(current);
       current = current.getPrevious();
     } while (current != null);
+    
+    this.executionTime = System.currentTimeMillis() - begin;
   }
   
+  /**
+   * Returnerar en iterator över Node&lt;GraphNode&#62; eftersom de objekten innehåller viktig information om den kortaste vägen.
+   * @return En iterator över noderna som representerar den kortaste sträckan.
+   */
   public Iterator<Node<GraphNode>> getPath() {
     return this.path.iterator();
   }
   
+  /**
+   * @return En iterator över alla hållplatser i grafen
+   */
   public Iterator<BStop> getAllStops(){
     return this.graph.getStops().iterator();
   }
   
+  /**
+   * @return Hur länge beräkningen tog i millisekunder.
+   */
+  public long getExecutionTime() {
+    return this.executionTime;
+  }
+  
+  /**
+   * @return Längden på den kortaste sträckan.
+   */
   public int getPathLength() {
     return this.length;
   }
   
+  /**
+   * @return En iterator över alla noder i grafen.
+   */
   public Iterator<GraphNode> getNodes() {
     return this.graph.getNodes().iterator();
   }

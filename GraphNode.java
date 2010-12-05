@@ -20,10 +20,11 @@ class GraphNode {
   }
   
   /**
-   * Lägger till en utgående båge i grafnoden
+   * Lägger till en utgående båge i grafnoden. Lägger samtidigt till {this} som ursprungsnod i bågen.
    * @param edge En utgående båge
    */
   public void addEdge(Edge edge){
+    edge.setOrigin(this);
     this.edgeList.add(edge);
   }
   

@@ -1,29 +1,50 @@
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.GraphicsEnvironment;
+import java.awt.Point;
+import javax.swing.JFrame;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import java.io.File;
 import Lab3Help.*;
 import java.util.Iterator;
 
-/* Tar in hållplatslistor och tidtabeller och startar ruttsökningsprogrammet. */
+/**
+ * Central kontrollklass för Lab3.
+ * Ber användaren att tillhandahålla filer med hållplatser och linjetabeller.
+ * Instansierar DijkPath samt fönster för GUI.
+ * Lyssnar på events från GUI:t.
+ * Beräknar vid begäran den kortaste vägen samt ritar upp linjenät och kortaste vägen i en karta.
+ * Skriver även ut ruttinformation i textfönstret.
+ */
 
 public class Lab3Controller implements ActionListener {
   
-  JFileChooser fileChooser;
-  File stops;
-  File lines;
-  DijkPath pathComputer;
-  Lab3Frame frame;
-  BusMapFrame map;
-  String origin;
-  String destination;
+  private final boolean LEFT = true;
+  private final boolean RIGHT = false;
   
-  /* Startar programmet genom att be användaren välja filer med linjetabeller och hållplatser. */
+  private final String frameWindowTitle = "UltraPathSearchEngine";
+  private final String mapWindowTitle   = "UltraPathSearchEngine - Mapalyze";
+  
+  private JFileChooser fileChooser;
+  private File stops;
+  private File lines;
+  private DijkPath pathComputer;
+  private Lab3Frame frame;
+  private BusMapFrame map;
+  private String origin;
+  private String destination;
+  
+  /** Startar programmet genom att be användaren välja filer med linjetabeller och hållplatser. */
   public Lab3Controller() {
     fileChooser = new JFileChooser(".");
     chooseFiles();
-    this.pathComputer = new DijkPath(stops.getAbsolutePath(), lines.getAbsolutePath());
+    try {
+      this.pathComputer = new DijkPath(stops.getAbsolutePath(), lines.getAbsolutePath());
+    } catch (GeneralException e) {
+      JOptionPane.showMessageDialog(null, e.getMessage());
+      System.exit(1);
+    }
     buildView();
   }
   
@@ -38,7 +59,7 @@ public class Lab3Controller implements ActionListener {
     if(response == JFileChooser.APPROVE_OPTION) {
       this.stops = fileChooser.getSelectedFile();
     } else {
-      System.err.println("No stops file was chosen.");
+      JOptionPane.showMessageDialog(null,"No stops file was chosen.");
       System.exit(1);
     }
     
@@ -50,7 +71,7 @@ public class Lab3Controller implements ActionListener {
     if (response == JFileChooser.APPROVE_OPTION) {
       this.lines = fileChooser.getSelectedFile();
     } else {
-      System.err.println("No lines file was chosen.");
+      JOptionPane.showMessageDialog(null,"No lines file was chosen.");
       System.exit(1);
     }
   }
@@ -59,10 +80,9 @@ public class Lab3Controller implements ActionListener {
   private void buildView() {
     this.frame = new Lab3Frame();
     this.frame.addActionListener(this);
+    this.frame.setTitle(this.frameWindowTitle);
+    this.frame.setDefaultCloseOperation(this.frame.EXIT_ON_CLOSE);
     buildFrame();
-    this.map = new BusMapFrame();
-    this.frame.pack();
-    this.frame.setVisible(true);
   }
   
   /* Lägger till alla hållplatser i hållplatslistan i frame */
@@ -75,6 +95,10 @@ public class Lab3Controller implements ActionListener {
       current = i.next();
       frame.addStop(current.getStop().getName());
     }
+    
+    this.frame.pack();
+    moveFrame(this.frame, this.LEFT);
+    this.frame.setVisible(true);
   }
   
   /* Bygger kartan genom att rita alla bågar och hållplatser samt genom att rita den slutgiltiga vägen med rött. */
@@ -84,7 +108,13 @@ public class Lab3Controller implements ActionListener {
     BStop stop;
     BStop destination;
     
+    if (this.map != null) {
+      this.map.dispose();
+    }
+    this.map = new BusMapFrame();
+    
     this.map.initMap();
+    this.map.setTitle(this.mapWindowTitle);
     
     /* Lägg in alla hållplatser och rutter */
     while (i.hasNext()) {
@@ -99,7 +129,6 @@ public class Lab3Controller implements ActionListener {
     }
     
     /* Ritar den kortaste vägen */
-    pathComputer.computePath(this.origin, this.destination);
     map.initShortestPath();
     Iterator<Node<GraphNode>> j = pathComputer.getPath();
     BStop currentStop = j.next().getValue().getStop();
@@ -110,14 +139,31 @@ public class Lab3Controller implements ActionListener {
       map.drawEdge(currentStop.getX(), currentStop.getY(), nextStop.getX(), nextStop.getY());
       currentStop = nextStop;
     }
-    
+    /* Flyttar kartan till lämpligt ställe på skärmen */
+    moveFrame(this.map, RIGHT);
     /* Visar kartan */
     map.finalMap();
   }
   
+  /* Flyttar en frame till mitten av rutan och sedan hälften av sin bredd åt vänster eller höger beroende på indata. 
+   * Genom att flytta en frame åt höger och annan en åt vänster får vi dem att inte överlappa varandra.
+   */
+  private void moveFrame(JFrame c, boolean left) {
+    c.setLocationRelativeTo(null);
+    int x = c.getX();
+    int newX = left ? x - 10 - (c.getWidth() / 2) : x + 10 + (c.getWidth() / 2);
+    c.setLocation(newX, c.getY());
+  }
+  
+  /** Fångar klick från GUI. Sparar undan sökta noder, utför sökning och bygger kartan. */
   public void actionPerformed(ActionEvent e) {
     this.origin       = (String) frame.getFrom();
     this.destination  = (String) frame.getTo();
+    try {
+      pathComputer.computePath(this.origin, this.destination);
+    } catch (GeneralException ge) {
+      JOptionPane.showMessageDialog(null, ge.getMessage());
+    }
     buildMap();
     writePathInfo();
   }
@@ -126,12 +172,14 @@ public class Lab3Controller implements ActionListener {
   private void writePathInfo() {
     Node<GraphNode> cursor;
     
+    /* Skriver först ut information om hela sträckan */
     int totalPathLength = pathComputer.getPathLength();
     String heading = "Calculated path from " + this.origin + " to " + this.destination + ".\n";
     heading += "Total time: " + totalPathLength;
     
     this.frame.writeln(heading);
     
+    /* Skriver sedan ut information om starthållplatsen */
     Iterator<Node<GraphNode>> k = pathComputer.getPath();
     String cursorStop;
     String previousStop;
@@ -140,7 +188,9 @@ public class Lab3Controller implements ActionListener {
     if(k.hasNext()) {
       cursor = k.next();
       this.frame.writeln("Start at " + cursor.getValue().getStop().getName());
-    }    
+    }
+    
+    /* Skriver till sist ut information om varje delsträcka. */
     while(k.hasNext()) {
       cursor = k.next();
       cursorStop = cursor.getValue().getStop().getName();
@@ -148,10 +198,15 @@ public class Lab3Controller implements ActionListener {
       output = "Take line " + cursor.getLine() + " from " + previousStop + " to " + cursorStop + " - time: " + cursor.getTimeFromPrevious();
       this.frame.writeln(output);
     }
+    
+    /* Skriver ut hur länge beräkningen tog. */
+    this.frame.writeln("Calculation took " + pathComputer.getExecutionTime() + " milliseconds.");
+    /* Avslutar med tom rad. */
+    this.frame.writeln("");
   }
 
 
-  /* För att testa klassen. */
+  /* Bootar programmet. */
   public static void main(String[] args) {
     Lab3Controller c = new Lab3Controller();
   }

@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 /**
- * En generisk nod i en graf.
- * Sparar ett nyttovärde och en nyckel samt lista på bågar som utgår från noden
+ * En nod i en prioritetskö i en DijkPath.
+ * Inkapslar en GraphNode och innehåller dessutom data om hur man tagit sig till noden samt hur länge det tagit.
  */
 
 public class Node<T> {
@@ -15,38 +15,64 @@ public class Node<T> {
   private int timeFromPrevious;
   
   /**
+   * Konstruerar en nod med maximalt värde på nyckeln.
    * @param value Nyttovärdet i Noden
-   * @param key Nyckeln som används för att prioritera Noden
    */
   public Node(T value){
     this(value, Integer.MAX_VALUE);
   }
   
+  /**
+   * Konstruerar en nod med värdet och nyckeln som specificerats.
+   * @param value Nyttovärdet i Noden
+   * @param key Nyckeln som används för att prioritera Noden
+   */
   public Node(T value, int key){
     this.value = value;
     this.key = key;
   }
   
+  /**
+   * @return Noden som ligger före den aktuella noden i den kortaste vägen.
+   */
   public Node<T> getPrevious(){
     return this.previous;
   }
   
+  /**
+   * Specificerar vilken nod som kommer före den aktuella noden i den kortaste vägen.
+   * @param n Noden som kommer före den aktuella noden i den kortaste vägen.
+   */
   public void setPrevious(Node n){
     this.previous = n;
   }
   
+  /**
+   * Specificera hur länge det tar att ta sig till den aktuella noden från noden före i den kortaste vägen.
+   * @param time Tiden mellan noderna
+   */
   public void setTimeFromPrevious(int time) {
     this.timeFromPrevious = time;
   }
   
+  /**
+   * @return Hur länge det tog att ta sig till den aktuella noden från den föregående noden.
+   */
   public int getTimeFromPrevious() {
     return this.timeFromPrevious;
   }
   
+  /**
+   * Specificera vilken linje som används för att ta sig snabbast från föregående nod till den aktuella noden.
+   * @param line Linjen som används
+   */
   public void setLine(int line) {
     this.lineToPrevious = line;
   }
   
+  /**
+   * @return Linjen som man tagit sig till noden med.
+   */
   public int getLine() {
     return this.lineToPrevious;
   }

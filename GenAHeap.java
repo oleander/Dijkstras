@@ -1,9 +1,9 @@
-/** En generisk klass för uppdaterbar heap.
+import java.util.*;
+
+/** En generisk klass för en uppdaterbar heap.
  *  @author Jesper Josefsson
  *  @author Linus Oleander
  */
-
-import java.util.*;
 
 public class GenAHeap<T> {  
   private Comparator comparator;
@@ -23,7 +23,7 @@ public class GenAHeap<T> {
   }
   
   /**
-   * Gör det möjligt att lägga till noder i heapen
+   * Lägger till en nod i heapen.
    * @param n Noden som ska läggas till i kön
    */
   public void add(Node<T> n){
@@ -38,7 +38,7 @@ public class GenAHeap<T> {
   }
   
   /**
-   * Storleken på heap
+   * Storleken på heapen.
    * @return int Storleken på heapen, där en tom heap har värdet 0 
    */
   public int getSize(){
@@ -46,7 +46,7 @@ public class GenAHeap<T> {
   }
   
   /**
-  * Kontrollerar huruvida heapen är tom eller ej
+  * Kontrollerar huruvida heapen är tom eller ej.
   * @return True om heapen är tom
   */
   public boolean isEmpty() {
@@ -54,9 +54,9 @@ public class GenAHeap<T> {
   }
   
   /**
-  * Hämtar första värden i heapen
-  * Är heapen tom så returneras {null}
-  * Plockar även bort värdet från heapen
+  * Hämtar första värden i heapen.
+  * Är heapen tom så returneras {null}.
+  * Plockar även bort värdet från heapen.
   * @return Första värdet i heapen
   */
   public Node<T> pull(){
@@ -68,8 +68,8 @@ public class GenAHeap<T> {
   }
   
   /**
-  * Hämtar Noden på plats {index} i heapen
-  * Plockar sedan bort värdet från heapen
+  * Hämtar Noden på plats {index} i heapen.
+  * Plockar sedan bort värdet från heapen.
   * @param index Anger vilken nod som ska retunerars av heapen där 0 är första Noden
   * @return Noden som finns på plats {index}, finns inte Noden så kastas ett fel
   */
@@ -82,7 +82,7 @@ public class GenAHeap<T> {
   }
   
   /**
-   * Hämtar, men tar inte bort första värdet från heapen
+   * Hämtar, men tar inte bort första värdet från heapen.
    * @return Första värdet på heapen
    */
   public Node<T> peek() {
@@ -93,11 +93,10 @@ public class GenAHeap<T> {
   }
 
   /** 
-   * Uppdaterar nyckeln på en nod 
+   * Uppdaterar nyckeln på en nod .
    * @param old Noden som skall förändras
    * @param key Den nya nyckeln
    */
-
   public void update(Node<T> old, int key) throws GeneralException {
     if (positionMap.get(old) == null) {
       throw new GeneralException("Error in update: Node<T> not found!");
