@@ -13,9 +13,6 @@ public class DijkPath implements Path {
   /* The length of the current path */
   private int length;
   
-  /* A dummy list for debugging */
-  private ArrayList<String> dummyList = new ArrayList<String>();
-  
   private HashSet<Node<GraphNode>> visited = new HashSet<Node<GraphNode>>();
   
   Deque<PathNode> path = new ArrayDeque<PathNode>();
@@ -107,7 +104,6 @@ public class DijkPath implements Path {
     /* Dijstras algoritm. */
     while(!pq.isEmpty()){
       current = pq.pull();
-      System.out.println("=====================\nCurrent är: \n" + current);
       
       // Har vi hittat vår slutnod?
       if(current.equals(destinationNode)){
@@ -138,7 +134,6 @@ public class DijkPath implements Path {
       }
       /* Nu är vi klara med noden Current - den läggs till i visitedlistan */
       visited.add(current);
-      System.out.println("Nu lägger vill till denna i visited: " + current);
     }
     
     /* Hämtar destinationsnoden från nodeMap och lägger den i current */
@@ -154,15 +149,19 @@ public class DijkPath implements Path {
     } while (current != null);
   }
   
-  public Iterator getPath() {
-    return path.iterator();
+  public Iterator<PathNode> getPath() {
+    return this.path.iterator();
   }
   
   public Iterator<BStop> getAllStops(){
-    return graph.getStops().iterator();
+    return this.graph.getStops().iterator();
   }
   
   public int getPathLength() {
     return this.length;
+  }
+  
+  public Iterator<GraphNode> getNodes() {
+    return this.graph.getNodes().iterator();
   }
 }

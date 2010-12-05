@@ -6,6 +6,7 @@
 
 public class Edge implements Comparable {
   private GraphNode destination;
+  private GraphNode origin;
   private int weight;
   private int line;
   
@@ -17,6 +18,12 @@ public class Edge implements Comparable {
     this.destination  = dest;
     this.weight       = weight;
     this.line         = line;
+    this.origin       = null;
+  }
+  
+  public Edge(GraphNode origin, GraphNode dest, int weight, int line) {
+    this.(dest, weight, line);
+    this.origin = origin;
   }
   
   /**
