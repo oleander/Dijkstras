@@ -101,12 +101,12 @@ public class Lab3Controller implements ActionListener {
     /* Ritar den kortaste vägen */
     pathComputer.computePath(this.origin, this.destination);
     map.initShortestPath();
-    Iterator<PathNode> j = pathComputer.getPath();
-    BStop currentStop = j.next().getStop();
+    Iterator<Node<GraphNode>> j = pathComputer.getPath();
+    BStop currentStop = j.next().getValue().getStop();
     BStop nextStop;
     
     while (j.hasNext()) {
-      nextStop = j.next().getStop();
+      nextStop = j.next().getValue().getStop();
       map.drawEdge(currentStop.getX(), currentStop.getY(), nextStop.getX(), nextStop.getY());
       currentStop = nextStop;
     }
@@ -124,7 +124,7 @@ public class Lab3Controller implements ActionListener {
   
   /* Skriver ut information om rutten som räknades ut. */
   private void writePathInfo() {
-    PathNode cursor;
+    Node<GraphNode> cursor;
     
     int totalPathLength = pathComputer.getPathLength();
     String heading = "Calculated path from " + this.origin + " to " + this.destination + ".\n";
@@ -132,15 +132,21 @@ public class Lab3Controller implements ActionListener {
     
     this.frame.writeln(heading);
     
-    Iterator<PathNode> k = pathComputer.getPath();
+    Iterator<Node<GraphNode>> k = pathComputer.getPath();
+    String cursorStop;
+    String previousStop;
+    String output;
     
     if(k.hasNext()) {
       cursor = k.next();
-      this.frame.writeln("Start at " + cursor.getStop().getName());
+      this.frame.writeln("Start at " + cursor.getValue().getStop().getName());
     }    
     while(k.hasNext()) {
       cursor = k.next();
-      this.frame.writeln("Then travel to " + cursor.getStop().getName() + " using line " + cursor.getLine());
+      cursorStop = cursor.getValue().getStop().getName();
+      previousStop = cursor.getPrevious().getValue().getStop().getName();
+      output = "Take line " + cursor.getLine() + " from " + previousStop + " to " + cursorStop + " - time: " + cursor.getTimeFromPrevious();
+      this.frame.writeln(output);
     }
   }
 

@@ -15,7 +15,7 @@ public class DijkPath implements Path {
   
   private HashSet<Node<GraphNode>> visited = new HashSet<Node<GraphNode>>();
   
-  Deque<PathNode> path = new ArrayDeque<PathNode>();
+  Deque<Node<GraphNode>> path = new ArrayDeque<Node<GraphNode>>();
   
   
   /* Both constructors build a graph based on the input */
@@ -129,6 +129,7 @@ public class DijkPath implements Path {
         if (tempDest.getKey() > newDist) {
           tempDest.setPrevious(current);
           tempDest.setLine(e.getLine());
+          tempDest.setTimeFromPrevious(e.getWeight());
           pq.update(tempDest, newDist);
         }
       }
@@ -144,12 +145,12 @@ public class DijkPath implements Path {
     
     /* Går igenom kedjan av noder från destinationsnoden och bakåt för att bygga upp kortaste vägen till destinationen. */
     do {
-      path.push(new PathNode(current.getValue().getStop(), current.getLine()));
+      path.push(current);
       current = current.getPrevious();
     } while (current != null);
   }
   
-  public Iterator<PathNode> getPath() {
+  public Iterator<Node<GraphNode>> getPath() {
     return this.path.iterator();
   }
   

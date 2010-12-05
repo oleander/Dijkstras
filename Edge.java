@@ -22,8 +22,12 @@ public class Edge implements Comparable {
   }
   
   public Edge(GraphNode origin, GraphNode dest, int weight, int line) {
-    this.(dest, weight, line);
+    this(dest, weight, line);
     this.origin = origin;
+  }
+  
+  public void setOrigin(GraphNode n) {
+    this.origin = n;
   }
   
   /**

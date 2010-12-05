@@ -12,6 +12,7 @@ public class Node<T> {
   
   /* Linjen man använder för att komma från förra noden */
   private int lineToPrevious;
+  private int timeFromPrevious;
   
   /**
    * @param value Nyttovärdet i Noden
@@ -26,12 +27,20 @@ public class Node<T> {
     this.key = key;
   }
   
-  public Node getPrevious(){
+  public Node<T> getPrevious(){
     return this.previous;
   }
   
   public void setPrevious(Node n){
     this.previous = n;
+  }
+  
+  public void setTimeFromPrevious(int time) {
+    this.timeFromPrevious = time;
+  }
+  
+  public int getTimeFromPrevious() {
+    return this.timeFromPrevious;
   }
   
   public void setLine(int line) {
