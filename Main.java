@@ -18,13 +18,17 @@ import java.util.Iterator;
  * Skriver även ut ruttinformation i textfönstret.
  */
 
-public class Lab3Controller implements ActionListener {
+public class Main implements ActionListener {
   
   private final boolean LEFT = true;
   private final boolean RIGHT = false;
   
-  private final String frameWindowTitle = "UltraPathSearchEngine";
-  private final String mapWindowTitle   = "UltraPathSearchEngine - Mapalyze";
+  private final String frameWindowTitle   = "UltraPathSearchEngine";
+  private final String mapWindowTitle     = "UltraPathSearchEngine - Mapalyze";
+  private final String noStopsMessage     = "No stops file was chosen.";
+  private final String noLinesMessage     = "No lines file was chosen.";
+  private final String chooseStopsMessage = "Please choose a file containing a list of stops.";
+  private final String chooseLinesMessage = "Please choose a file containing a line table.";
   
   private JFileChooser fileChooser;
   private File stops;
@@ -36,7 +40,7 @@ public class Lab3Controller implements ActionListener {
   private String destination;
   
   /** Startar programmet genom att be användaren välja filer med linjetabeller och hållplatser. */
-  public Lab3Controller() {
+  public Main() {
     fileChooser = new JFileChooser(".");
     chooseFiles();
     try {
@@ -52,26 +56,26 @@ public class Lab3Controller implements ActionListener {
   private void chooseFiles(){
     
     /* Information till användaren. */
-    JOptionPane.showMessageDialog(null, "Please choose a file containing a list of stops.");
+    JOptionPane.showMessageDialog(null, chooseStopsMessage);
     
     /* Välj först hållplatsfilen */
     int response = this.fileChooser.showOpenDialog(null);
     if(response == JFileChooser.APPROVE_OPTION) {
       this.stops = fileChooser.getSelectedFile();
     } else {
-      JOptionPane.showMessageDialog(null,"No stops file was chosen.");
+      JOptionPane.showMessageDialog(null,noStopsMessage);
       System.exit(1);
     }
     
     /* Information till användaren */
-    JOptionPane.showMessageDialog(null, "Please choose a file containing a line table.");
+    JOptionPane.showMessageDialog(null, chooseLinesMessage);
     
     /* Välj sedan linjefilen */
     response = this.fileChooser.showOpenDialog(null);
     if (response == JFileChooser.APPROVE_OPTION) {
       this.lines = fileChooser.getSelectedFile();
     } else {
-      JOptionPane.showMessageDialog(null,"No lines file was chosen.");
+      JOptionPane.showMessageDialog(null, noLinesMessage);
       System.exit(1);
     }
   }
@@ -170,6 +174,13 @@ public class Lab3Controller implements ActionListener {
   
   /* Skriver ut information om rutten som räknades ut. */
   private void writePathInfo() {
+    
+    /* Kollar först om det fanns en rutt mellan angivna noder. */
+    if (this.pathComputer.hasNoPath()) {
+      this.frame.writeln("Found no path.");
+      return;
+    }
+    
     Node<GraphNode> cursor;
     
     /* Skriver först ut information om hela sträckan */
@@ -208,6 +219,6 @@ public class Lab3Controller implements ActionListener {
 
   /* Bootar programmet. */
   public static void main(String[] args) {
-    Lab3Controller c = new Lab3Controller();
+    Main c = new Main();
   }
 }

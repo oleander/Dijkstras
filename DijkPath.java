@@ -33,7 +33,7 @@ public class DijkPath implements Path {
       lines = l.readLines(linesFileName);
       stops = l.readStops(stopsFileName);
     } catch (RuntimeException e) {
-      throw new GeneralException("Error while reading files.");
+      throw new GeneralException("Error while reading files.\n" + e.getMessage());
     }
     this.buildGraph(stops,lines);  
   }
@@ -202,6 +202,13 @@ public class DijkPath implements Path {
    */
   public int getPathLength() {
     return this.length;
+  }
+  
+  /**
+   * @return Fanns det en rutt mellan start- och destinationsnoden? 
+   */
+  public boolean hasNoPath(){
+    return this.path.size() <= 1;
   }
   
   /**
