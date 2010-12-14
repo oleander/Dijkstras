@@ -46,3 +46,30 @@ KOMPLEXITET
 
 Komplexiteten för vår implementation av Dijsktras algoritm bör vara O((m+n)log n) eftersom prioritetskön är snabbt uppdaterbar.
 
+TESTER
+******
+
+Prioritetskön samt heapen är testade under utveckling av labb2.
+
+DijkPath har testats för hand (flyglinjerna), samt med testing.jar-paketet som fanns tillgängligt för labben.
+Hela Lab3FileTest utfördes med stops-bvs.txt och lines-bvs.txt utan fel. Se utskrift längre ner.
+Dessutom utfördes >300 000 lyckade tester med Lab3GenTest.
+
+Vi har dessutom testat med broken-lines-filerna i Input files-mappen. Dessa ser till att algoritmen kan hantera sträckor mellan icke-anknutna noder.
+
+
+
+Resultat av Lab3FileTest med stops-bvs.txt och lines-bvs.txt:
+
+
+java -jar testing.jar lab3test.Lab3FileTest "DijkPath stops-bvs.txt lines-bvs.txt"
+Press any key to stop testing..
+
+573/418609 tests done so far. successes: 573, failures: 0.
+1249/418609 tests done so far. successes: 1249, failures: 0.
+.....
+.....
+418000/418609 tests done so far. successes: 418000, failures: 0.
+<terminated since done with testing>
+tests: 418609/418609, successes: 418609, failures: 0
+

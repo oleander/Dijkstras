@@ -21,6 +21,7 @@ public class DijkPath implements Path {
   
   /* En kö som innehåller den kortaste sträckan. */
   Deque<Node<GraphNode>> path = new ArrayDeque<Node<GraphNode>>();
+  Deque<String> stringPath = new ArrayDeque<String>();
   
   /**
    * Bygger en graf på basis av filnamnen {stopsFileName} och {lineFileName}
@@ -169,6 +170,7 @@ public class DijkPath implements Path {
     /* Går igenom kedjan av noder från destinationsnoden och bakåt för att bygga upp kortaste vägen till destinationen. */
     do {
       path.push(current);
+      stringPath.push(current.getValue().getName());
       current = current.getPrevious();
     } while (current != null);
     
@@ -179,8 +181,16 @@ public class DijkPath implements Path {
    * Returnerar en iterator över Node&lt;GraphNode&#62; eftersom de objekten innehåller viktig information om den kortaste vägen.
    * @return En iterator över noderna som representerar den kortaste sträckan.
    */
-  public Iterator<Node<GraphNode>> getPath() {
+  public Iterator<Node<GraphNode>> getExpandedPath() {
     return this.path.iterator();
+  }
+  
+  /**
+   * Returnerar en iterator över hållplatsnamnen i den kortaste sträckan.
+   * @return En iterator över några idioter.
+   */
+  public Iterator<String> getPath() {
+    return this.stringPath.iterator();
   }
   
   /**

@@ -134,7 +134,7 @@ public class Main implements ActionListener {
     
     /* Ritar den kortaste vägen */
     map.initShortestPath();
-    Iterator<Node<GraphNode>> j = pathComputer.getPath();
+    Iterator<Node<GraphNode>> j = pathComputer.getExpandedPath();
     BStop currentStop = j.next().getValue().getStop();
     BStop nextStop;
     
@@ -191,7 +191,7 @@ public class Main implements ActionListener {
     this.frame.writeln(heading);
     
     /* Skriver sedan ut information om starthållplatsen */
-    Iterator<Node<GraphNode>> k = pathComputer.getPath();
+    Iterator<Node<GraphNode>> k = pathComputer.getExpandedPath();
     String cursorStop;
     String previousStop;
     String output;
